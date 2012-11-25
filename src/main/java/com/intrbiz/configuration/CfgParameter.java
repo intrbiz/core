@@ -1,0 +1,86 @@
+package com.intrbiz.configuration;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
+
+/**
+ * An arbitrary name value pair of configuration data
+ */
+@XmlType(name = "parameter")
+@XmlRootElement(name = "parameter")
+public class CfgParameter
+{
+    private String name;
+
+    private String description;
+
+    private String value;
+
+    private String text;
+
+    public CfgParameter()
+    {
+    }
+
+    public CfgParameter(String name, String value)
+    {
+        super();
+        this.name = name;
+        this.value = value;
+    }
+
+    public CfgParameter(String name, String description, String value)
+    {
+        super();
+        this.name = name;
+        this.description = description;
+        this.value = value;
+    }
+
+    @XmlAttribute(name = "name")
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    @XmlAttribute(name = "description")
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    @XmlAttribute(name = "value")
+    public String getValue()
+    {
+        return value;
+    }
+
+    public void setValue(String value)
+    {
+        this.value = value;
+    }
+
+    @XmlValue()
+    public String getText()
+    {
+        return text;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
+    }
+
+}
