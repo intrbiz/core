@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.intrbiz.Util;
+
 /**
  * Configuration for a component of any application or framework.
  */
@@ -45,7 +47,12 @@ public class Configuration
     @XmlAttribute(name = "classname")
     public String getClassname()
     {
-        return classname;
+        return Util.isEmpty(this.classname) ? this.defaultClassname() : this.classname;
+    }
+    
+    protected String defaultClassname()
+    {
+        return null;
     }
 
     public void setClassname(String classname)
@@ -188,9 +195,10 @@ public class Configuration
             return (Configuration) ctx.createUnmarshaller().unmarshal(in);
     }
 
-    public static Configuration read(Class<?> type, InputStream in) throws JAXBException
+    @SuppressWarnings("unchecked")
+    public static <T extends Configuration> T read(Class<T> type, InputStream in) throws JAXBException
     {
-        return read(new Class<?>[] { type }, in);
+        return (T) read(new Class<?>[] { type }, in);
     }
 
     public static void write(Class<?>[] types, Configuration obj, OutputStream out) throws JAXBException
