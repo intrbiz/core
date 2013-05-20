@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.validator.validators.ValidatorText;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ValidatorType(validator=ValidatorText.class)
 public @interface TextValidator {
     boolean mandatory() default false ;

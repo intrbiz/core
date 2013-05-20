@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.validator.validators.ValidatorDouble;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ValidatorType(validator=ValidatorDouble.class)
 public @interface DoubleValidator {
     boolean mandatory() default false ;

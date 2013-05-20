@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.validator.validators.ValidatorDate;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ValidatorType(validator=ValidatorDate.class)
 public @interface DateValidator {
 

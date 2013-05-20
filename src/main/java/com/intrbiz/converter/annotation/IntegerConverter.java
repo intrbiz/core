@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.converter.converters.ConverterInteger;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ConverterType(converter=ConverterInteger.class)
 public @interface IntegerConverter
 {

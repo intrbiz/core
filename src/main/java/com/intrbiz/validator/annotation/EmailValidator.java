@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.validator.validators.ValidatorEmail;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ValidatorType(validator=ValidatorEmail.class)
 public @interface EmailValidator {
     boolean mandatory() default false ;

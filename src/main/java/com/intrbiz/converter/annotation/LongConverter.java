@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.converter.converters.ConverterLong;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ConverterType(converter=ConverterLong.class)
 public @interface LongConverter
 {

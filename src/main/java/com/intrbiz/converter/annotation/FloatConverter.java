@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.converter.converters.ConverterFloat;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ConverterType(converter=ConverterFloat.class)
 public @interface FloatConverter
 {

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import com.intrbiz.converter.converters.ConverterUUID;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @ConverterType(converter=ConverterUUID.class)
 public @interface UUIDConverter
 {
