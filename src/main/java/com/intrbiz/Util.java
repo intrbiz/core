@@ -16,8 +16,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.intrbiz.collections.Mapping;
 import com.intrbiz.collections.Condition;
+import com.intrbiz.collections.Mapping;
 
 /**
  * Core util library
@@ -125,6 +125,24 @@ public final class Util
     public final static boolean isEmpty(String s)
     {
         return (s == null || s.length() <= 0);
+    }
+    
+    public final static String coalesce(String... ss)
+    {
+        for (String s : ss)
+        {
+            if (s != null) return s;
+        }
+        return null;
+    }
+    
+    public final static String coalesceEmpty(String... ss)
+    {
+        for (String s : ss)
+        {
+            if (! isEmpty(s)) return s;
+        }
+        return null;
     }
 
     /**
