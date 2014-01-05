@@ -1,6 +1,6 @@
 package com.intrbiz.converter;
 
-public class ConversionException extends Exception
+public class ConversionException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 
@@ -9,29 +9,18 @@ public class ConversionException extends Exception
         super();
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
     public ConversionException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
-    /**
-     * @param message
-     */
     public ConversionException(String message)
     {
         super(message);
     }
 
-    /**
-     * @param cause
-     */
     public ConversionException(Throwable cause)
     {
         super(cause);
-    }
-    
+    }    
 }

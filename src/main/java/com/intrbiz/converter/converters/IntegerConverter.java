@@ -1,25 +1,32 @@
 package com.intrbiz.converter.converters;
 
-import static com.intrbiz.Util.isEmpty;
+import static com.intrbiz.Util.*;
 
 import java.lang.annotation.Annotation;
-import java.util.Map;
 
 import com.intrbiz.converter.ConversionException;
 import com.intrbiz.converter.Converter;
 
-public class ConverterInteger implements Converter
+public class IntegerConverter extends Converter<Integer>
 {
-
-    public void configure(Annotation data)
+    public IntegerConverter()
     {
+        super(Integer.class);
     }
     
-    public void configure(Map<String,Object> data)
+    @Override
+    public boolean canConvertTo(Class<?> type)
+    {
+        return type == Integer.class || type == int.class;
+    }
+
+    @Override
+    public void configure(Annotation data, Annotation[] additional)
     {
     }
 
-    public Object convert(String requestvalue) throws ConversionException
+    @Override
+    public Integer parseValue(String requestvalue) throws ConversionException
     {
         if (isEmpty(requestvalue))
         {
@@ -38,7 +45,8 @@ public class ConverterInteger implements Converter
         }
     }
 
-    public String convert(Object in) throws ConversionException
+    @Override
+    public String formatValue(Integer in) throws ConversionException
     {
         if (in == null) return "";
         return String.valueOf(in);

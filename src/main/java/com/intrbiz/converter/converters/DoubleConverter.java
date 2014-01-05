@@ -1,21 +1,21 @@
 package com.intrbiz.converter.converters;
 
-import static com.intrbiz.Util.isEmpty;
-
-import java.lang.annotation.Annotation;
-import java.util.Map;
+import static com.intrbiz.Util.*;
 
 import com.intrbiz.converter.ConversionException;
 import com.intrbiz.converter.Converter;
 
-public class ConverterDouble implements Converter
+public class DoubleConverter extends Converter<Double>
 {
-    public void configure(Annotation data)
+    public DoubleConverter()
     {
+        super(Double.class);
     }
-
-    public void configure(Map<String, Object> data)
+    
+    @Override
+    public boolean canConvertTo(Class<?> type)
     {
+        return type == Double.class || type == double.class;
     }
 
     /**
@@ -31,7 +31,8 @@ public class ConverterDouble implements Converter
         return s.replace(".", "").contains("2225073858507201");
     }
 
-    public Object convert(String requestvalue) throws ConversionException
+    @Override
+    public Double parseValue(String requestvalue) throws ConversionException
     {
         if (isEmpty(requestvalue)) { return null; }
         if (containsMagicDoSNumber(requestvalue)) throw new ConversionException("The request input is regarded as a potential DoS threat");
@@ -41,11 +42,12 @@ public class ConverterDouble implements Converter
         }
         catch (Exception e)
         {
-            throw new ConversionException("Error converting to int", e);
+            throw new ConversionException("Error converting to double", e);
         }
     }
 
-    public String convert(Object in) throws ConversionException
+    @Override
+    public String formatValue(Double in) throws ConversionException
     {
         if (in == null) return "";
         return String.valueOf(in);

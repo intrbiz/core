@@ -1,16 +1,16 @@
-package com.intrbiz.converter.annotation;
+package com.intrbiz.metadata;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.converters.ConverterDate;
+import com.intrbiz.converter.IsConverter;
+import com.intrbiz.converter.converters.FloatConverter;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-@ConverterType(converter=ConverterDate.class)
-public @interface TimeConverter
+@IsConverter(converter=FloatConverter.class)
+public @interface AsFloat
 {
-    String pattern() default "hh:mm:ss" ;
 }
