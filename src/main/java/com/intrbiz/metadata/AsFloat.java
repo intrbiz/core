@@ -5,12 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.IsConverter;
 import com.intrbiz.converter.converters.FloatConverter;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-@IsConverter(converter=FloatConverter.class)
+@UseConverter(FloatConverter.class)
 public @interface AsFloat
 {
 }

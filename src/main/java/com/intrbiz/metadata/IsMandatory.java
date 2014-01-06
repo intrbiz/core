@@ -1,14 +1,14 @@
-package com.intrbiz.validator.annotation;
+package com.intrbiz.metadata;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.validator.Validator;
-
+/**
+ * Mark a value as being mandatory (not null)
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ValidatorType {
-    Class<? extends Validator> validator();
+@Target({ElementType.METHOD, ElementType.PARAMETER})
+public @interface IsMandatory {
 }

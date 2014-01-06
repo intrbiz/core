@@ -5,11 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.converters.IntegerConverter;
+import com.intrbiz.converter.converters.DateConverter;
+import com.intrbiz.validator.validators.DateValidator;
 
+/**
+ * Assert the value is a Date
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-@UseConverter(IntegerConverter.class)
-public @interface AsInt
-{
+@UseValidator(DateValidator.class)
+@UseConverter(DateConverter.class)
+public @interface IsaDate {
 }

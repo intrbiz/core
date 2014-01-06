@@ -5,11 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.converters.IntegerConverter;
+import com.intrbiz.converter.Converter;
+
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.PARAMETER})
-@UseConverter(IntegerConverter.class)
-public @interface AsInt
-{
+@Target(ElementType.TYPE)
+public @interface UseConverter {
+    Class<? extends Converter<?>> value();
 }

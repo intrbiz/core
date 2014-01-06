@@ -3,6 +3,8 @@ package com.intrbiz.converter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import com.intrbiz.metadata.UseConverter;
+
 
 /**
  * Convert from and to the textual representation of a Java value
@@ -52,8 +54,8 @@ public abstract class Converter<T>
             Annotation converter = getConverterAnnotation(paramAnnos);
             if (converter != null)
             {
-                IsConverter isConverter = converter.annotationType().getAnnotation(IsConverter.class);
-                Converter<?> conv = isConverter.converter().newInstance();
+                UseConverter useConverter = converter.annotationType().getAnnotation(UseConverter.class);
+                Converter<?> conv = useConverter.value().newInstance();
                 conv.configure(converter, paramAnnos);
                 return conv;
             }
@@ -73,8 +75,8 @@ public abstract class Converter<T>
             Annotation converter = getConverterAnnotation(annotations);
             if (converter != null)
             {
-                IsConverter isConverter = converter.annotationType().getAnnotation(IsConverter.class);
-                Converter<?> conv = isConverter.converter().newInstance();
+                UseConverter useConverter = converter.annotationType().getAnnotation(UseConverter.class);
+                Converter<?> conv = useConverter.value().newInstance();
                 conv.configure(converter, annotations);
                 return conv;
             }
@@ -88,10 +90,9 @@ public abstract class Converter<T>
 
     private static Annotation getConverterAnnotation(Annotation[] annotations)
     {
-        for (int i = 0; i < annotations.length; i++)
+        for (Annotation ann : annotations)
         {
-            Annotation ann = annotations[i];
-            if (ann.annotationType().isAnnotationPresent(IsConverter.class)) return ann;
+            if (ann.annotationType().isAnnotationPresent(UseConverter.class)) return ann;
         }
         return null;
     }

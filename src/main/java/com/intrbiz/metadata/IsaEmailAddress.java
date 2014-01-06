@@ -6,10 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.intrbiz.converter.converters.StringConverter;
+import com.intrbiz.validator.validators.EmailValidator;
 
+/**
+ * Check the value matches the format for an email address
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
+@UseValidator(EmailValidator.class)
 @UseConverter(StringConverter.class)
-public @interface AsString
-{
+public @interface IsaEmailAddress {
 }
