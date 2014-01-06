@@ -12,5 +12,5 @@ import com.intrbiz.converter.converters.DateConverter;
 @UseConverter(DateConverter.class)
 public @interface AsDate
 {
-    String pattern() default "dd/MM/yyyy";
+    String value();
 }

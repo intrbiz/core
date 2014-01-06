@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.converters.DateConverter;
 import com.intrbiz.validator.validators.DateValidator;
 
 /**
@@ -14,6 +13,5 @@ import com.intrbiz.validator.validators.DateValidator;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(DateValidator.class)
-@UseConverter(DateConverter.class)
 public @interface IsaDate {
 }

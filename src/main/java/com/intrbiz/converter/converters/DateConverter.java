@@ -12,7 +12,7 @@ import com.intrbiz.metadata.AsDate;
 
 public class DateConverter extends Converter<Date>
 {
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat format;
     
     public DateConverter()
     {
@@ -23,7 +23,7 @@ public class DateConverter extends Converter<Date>
     public void configure(Annotation data, Annotation[] additional)
     {
         AsDate dconv = (AsDate) data;
-        this.format = new SimpleDateFormat(dconv.pattern());
+        this.format = new SimpleDateFormat(dconv.value());
     }
 
     @Override
