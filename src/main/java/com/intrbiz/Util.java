@@ -306,7 +306,7 @@ public final class Util
     /**
      * Find all elements in the collection which matches the given condition
      */
-    public final static <E> Collection<E> find(Collection<E> over, Collection<E> to, Condition<E> matcher)
+    public final static <E> Collection<E> filter(Collection<E> over, Collection<E> to, Condition<E> matcher)
     {
         if (over != null && to != null)
         {
@@ -318,19 +318,62 @@ public final class Util
         return to;
     }
 
-    public final static <E> List<E> find(List<E> over, Condition<E> matcher)
+    public final static <E> List<E> filter(List<E> over, Condition<E> matcher)
     {
-        return (List<E>) find(over, new LinkedList<E>(), matcher);
+        return (List<E>) filter(over, new LinkedList<E>(), matcher);
     }
 
-    public final static <E> Set<E> find(Set<E> over, Condition<E> matcher)
+    public final static <E> Set<E> filter(Set<E> over, Condition<E> matcher)
     {
-        return (Set<E>) find(over, new HashSet<E>(), matcher);
+        return (Set<E>) filter(over, new HashSet<E>(), matcher);
     }
 
-    public final static <E> SortedSet<E> find(SortedSet<E> over, Condition<E> matcher)
+    public final static <E> SortedSet<E> filter(SortedSet<E> over, Condition<E> matcher)
     {
-        return (SortedSet<E>) find(over, new TreeSet<E>(), matcher);
+        return (SortedSet<E>) filter(over, new TreeSet<E>(), matcher);
+    }
+    
+    /**
+     * Reduce down a set of objects to another set of object
+     */
+    public final static <I, O> Collection<O> filter(Iterable<I> from, Collection<O> to, Mapping<I, O> mapping)
+    {
+        if (mapping == null) throw new IllegalArgumentException("Cannot map without a mapping");
+        if (from != null && to != null)
+        {
+            for (I item : from)
+            {
+                O value = mapping.map(item);
+                if (value != null) to.add(value);
+            }
+        }
+        return to;
+    }
+
+    public final static <I, O> List<O> filter(List<I> from, Mapping<I, O> mapping)
+    {
+        return (List<O>) filter(from, new LinkedList<O>(), mapping);
+    }
+
+    public final static <I, O> Set<O> filter(Set<I> from, Mapping<I, O> mapping)
+    {
+        return (Set<O>) filter(from, new HashSet<O>(), mapping);
+    }
+
+    public final static <I, O> SortedSet<O> filter(SortedSet<I> from, Mapping<I, O> mapping)
+    {
+        return (SortedSet<O>) filter(from, new TreeSet<O>(), mapping);
+    }
+
+    public final static <IK, IV, OK, OV> Map<OK, OV> filter(Map<IK, IV> from, Map<OK, OV> to, Mapping<Entry<IK, IV>, Entry<OK, OV>> mapping)
+    {
+        if (mapping == null) throw new IllegalArgumentException("Cannot map without a mapping");
+        for (Entry<IK, IV> e : from.entrySet())
+        {
+            Entry<OK, OV> o = mapping.map(e);
+            if (o != null) to.put(o.getKey(), o.getValue());
+        }
+        return to;
     }
 
     /*
