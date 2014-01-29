@@ -1,6 +1,8 @@
 package com.intrbiz;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -580,5 +582,29 @@ public final class Util
                 }
             }
         }
+    }
+    
+    public static String loadResourceAsString(Class<?> relative, String path)
+    {
+        InputStream in = relative.getResourceAsStream(path);
+        if (in != null)
+        {
+            StringBuilder sb = new StringBuilder();
+            try (InputStreamReader r = new InputStreamReader(in, UTF8))
+            {
+                char[] b = new char[1024];
+                int l;
+                while ((l = r.read(b)) != -1)
+                {
+                    sb.append(b, 0, l);
+                }
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException("Failed to load resource " + path, e);
+            }
+            return sb.toString();
+        }
+        throw new RuntimeException("Failed to load resource " + path);
     }
 }
