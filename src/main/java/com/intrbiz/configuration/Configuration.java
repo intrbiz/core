@@ -33,6 +33,10 @@ public class Configuration
     {
     }
 
+    public void applyDefaults()
+    {
+    }
+
     @XmlAttribute(name = "name")
     public String getName()
     {
@@ -49,7 +53,7 @@ public class Configuration
     {
         return Util.isEmpty(this.classname) ? this.defaultClassname() : this.classname;
     }
-    
+
     protected String defaultClassname()
     {
         return null;
@@ -172,11 +176,10 @@ public class Configuration
     @SuppressWarnings("unchecked")
     public Object create() throws Exception
     {
-
-            Class<?> cls = Class.forName(this.getClassname());
-            Object obj = (Object) cls.newInstance();
-            if (obj instanceof Configurable<?>) ((Configurable<Configuration>) obj).configure(this);
-            return obj;
+        Class<?> cls = Class.forName(this.getClassname());
+        Object obj = (Object) cls.newInstance();
+        if (obj instanceof Configurable<?>) ((Configurable<Configuration>) obj).configure(this);
+        return obj;
     }
 
     public void copyTo(Configuration cfg)
@@ -191,8 +194,8 @@ public class Configuration
 
     public static Configuration read(Class<?>[] types, InputStream in) throws JAXBException
     {
-            JAXBContext ctx = JAXBContext.newInstance(types);
-            return (Configuration) ctx.createUnmarshaller().unmarshal(in);
+        JAXBContext ctx = JAXBContext.newInstance(types);
+        return (Configuration) ctx.createUnmarshaller().unmarshal(in);
     }
 
     @SuppressWarnings("unchecked")
@@ -203,10 +206,10 @@ public class Configuration
 
     public static void write(Class<?>[] types, Configuration obj, OutputStream out) throws JAXBException
     {
-            JAXBContext ctx = JAXBContext.newInstance(types);
-            Marshaller m = ctx.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            m.marshal(obj, out);
+        JAXBContext ctx = JAXBContext.newInstance(types);
+        Marshaller m = ctx.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.marshal(obj, out);
     }
 
     public static void write(Class<?> type, Configuration obj, OutputStream out) throws JAXBException
