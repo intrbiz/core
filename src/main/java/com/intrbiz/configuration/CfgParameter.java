@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
+import com.intrbiz.Util;
+
 /**
  * An arbitrary name value pair of configuration data
  */
@@ -37,6 +39,15 @@ public class CfgParameter
         this.name = name;
         this.description = description;
         this.value = value;
+    }
+    
+    public CfgParameter(String name, String description, String value, String text)
+    {
+        super();
+        this.name = name;
+        this.description = description;
+        this.value = value;
+        this.text = text;
     }
 
     @XmlAttribute(name = "name")
@@ -82,5 +93,33 @@ public class CfgParameter
     {
         this.text = text;
     }
+    
+    public String getValueOrText()
+    {
+        return Util.coalesceEmpty(this.value, this.text);
+    }
 
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        CfgParameter other = (CfgParameter) obj;
+        if (name == null)
+        {
+            if (other.name != null) return false;
+        }
+        else if (!name.equals(other.name)) return false;
+        return true;
+    }
 }

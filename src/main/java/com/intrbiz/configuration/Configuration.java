@@ -93,7 +93,7 @@ public class Configuration
     {
         CfgParameter p = this.getParameter(name);
         if (p == null) return def;
-        return p.getValue();
+        return p.getValueOrText();
     }
 
     public int getIntParameterValue(String name, int def)
@@ -102,7 +102,7 @@ public class Configuration
         if (p == null) return def;
         try
         {
-            return Integer.parseInt(p.getValue());
+            return Integer.parseInt(p.getValueOrText());
         }
         catch (NumberFormatException e)
         {
@@ -116,7 +116,7 @@ public class Configuration
         if (p == null) return def;
         try
         {
-            return Long.parseLong(p.getValue());
+            return Long.parseLong(p.getValueOrText());
         }
         catch (NumberFormatException e)
         {
@@ -130,7 +130,7 @@ public class Configuration
         if (p == null) return def;
         try
         {
-            return Float.parseFloat(p.getValue());
+            return Float.parseFloat(p.getValueOrText());
         }
         catch (NumberFormatException e)
         {
@@ -144,7 +144,7 @@ public class Configuration
         if (p == null) return def;
         try
         {
-            return Double.parseDouble(p.getValue());
+            return Double.parseDouble(p.getValueOrText());
         }
         catch (NumberFormatException e)
         {
@@ -158,7 +158,7 @@ public class Configuration
         if (p == null) return def;
         try
         {
-            return Boolean.parseBoolean(p.getValue());
+            return Boolean.parseBoolean(p.getValueOrText());
         }
         catch (NumberFormatException e)
         {
@@ -188,7 +188,7 @@ public class Configuration
         cfg.setClassname(this.getClassname());
         for (CfgParameter p : this.getParameters())
         {
-            cfg.addParameter(new CfgParameter(p.getName(), p.getDescription(), p.getValue()));
+            cfg.addParameter(new CfgParameter(p.getName(), p.getDescription(), p.getValue(), p.getText()));
         }
     }
 
@@ -204,12 +204,18 @@ public class Configuration
         return (T) read(new Class<?>[] { type }, in);
     }
 
-    public static void write(Class<?>[] types, Configuration obj, OutputStream out) throws JAXBException
+    public static void write(Class<?>[] types, boolean fragment, Configuration obj, OutputStream out) throws JAXBException
     {
         JAXBContext ctx = JAXBContext.newInstance(types);
         Marshaller m = ctx.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
         m.marshal(obj, out);
+    }
+    
+    public static void write(Class<?>[] types, Configuration obj, OutputStream out) throws JAXBException
+    {
+        write(types, false, obj, out);
     }
 
     public static void write(Class<?> type, Configuration obj, OutputStream out) throws JAXBException
