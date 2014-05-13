@@ -129,9 +129,10 @@ public final class Util
         return (s == null || s.length() <= 0);
     }
     
-    public final static String coalesce(String... ss)
+    @SafeVarargs
+    public final static <T> T coalesce(T... ss)
     {
-        for (String s : ss)
+        for (T s : ss)
         {
             if (s != null) return s;
         }
