@@ -147,6 +147,16 @@ public final class Util
         }
         return null;
     }
+    
+    @SafeVarargs
+    public final static <C extends Collection<?>> C coalesceEmpty(C... cc)
+    {
+        for (C c : cc)
+        {
+            if (! isEmpty(c)) return c;
+        }
+        return null;
+    }
 
     /**
      * Is the collection empty
