@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import com.intrbiz.collections.Condition;
 import com.intrbiz.collections.Mapping;
@@ -31,6 +32,8 @@ import com.intrbiz.collections.Mapping;
  */
 public final class Util
 {
+    private Util() {}
+    
     public static final Charset UTF8 = Charset.forName("UTF8");
 
     /*
@@ -156,6 +159,11 @@ public final class Util
             if (! isEmpty(c)) return c;
         }
         return null;
+    }
+    
+    public static <T,U> U nullable(T on, Function<T,U> action)
+    {
+        return on == null ? null : action.apply(on);
     }
 
     /**
