@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.intrbiz.collections.Condition;
 import com.intrbiz.collections.Mapping;
@@ -164,6 +165,18 @@ public final class Util
     public static <T,U> U nullable(T on, Function<T,U> action)
     {
         return on == null ? null : action.apply(on);
+    }
+    
+    public static <T, U, E extends Exception> U requireNotNull(T on, Function<T,U> action, Supplier<E> onNull) throws E
+    {
+        if (on == null) throw onNull.get();
+        return action.apply(on);
+    }
+    
+    public static <T, E extends Exception> T requireNotNull(T on, Supplier<E> onNull) throws E
+    {
+        if (on == null) throw onNull.get();
+        return on;
     }
 
     /**
