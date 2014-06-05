@@ -1,8 +1,11 @@
 package com.intrbiz.configuration;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -203,8 +206,29 @@ public class Configuration
     {
         return (T) read(new Class<?>[] { type }, in);
     }
+    
+    public static Configuration read(Class<?>[] types, Reader in) throws JAXBException
+    {
+        JAXBContext ctx = JAXBContext.newInstance(types);
+        return (Configuration) ctx.createUnmarshaller().unmarshal(in);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Configuration> T read(Class<T> type, Reader in) throws JAXBException
+    {
+        return (T) read(new Class<?>[] { type }, in);
+    }
 
     public static void write(Class<?>[] types, boolean fragment, Configuration obj, OutputStream out) throws JAXBException
+    {
+        JAXBContext ctx = JAXBContext.newInstance(types);
+        Marshaller m = ctx.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
+        m.marshal(obj, out);
+    }
+    
+    public static void write(Class<?>[] types, boolean fragment, Configuration obj, Writer out) throws JAXBException
     {
         JAXBContext ctx = JAXBContext.newInstance(types);
         Marshaller m = ctx.createMarshaller();
@@ -217,23 +241,80 @@ public class Configuration
     {
         write(types, false, obj, out);
     }
+    
+    public static void write(Class<?>[] types, Configuration obj, Writer out) throws JAXBException
+    {
+        write(types, false, obj, out);
+    }
 
     public static void write(Class<?> type, Configuration obj, OutputStream out) throws JAXBException
     {
         write(new Class<?>[] { type }, obj, out);
     }
+    
+    public static void write(Class<?> type, Configuration obj, Writer out) throws JAXBException
+    {
+        write(new Class<?>[] { type }, obj, out);
+    }
+    
+    public static void write(Class<?> type, boolean fragment, Configuration obj, Writer out) throws JAXBException
+    {
+        write(new Class<?>[] { type }, fragment, obj, out);
+    }
+    
+    
+    public static String toString(Class<?> type, Configuration obj)
+    {
+        StringWriter sw = new StringWriter();
+        try 
+        {
+            write(type, true, obj, sw);
+        }
+        catch (Exception e)
+        {
+        }
+        return sw.toString();
+    }
+    
+    public static String toString(Class<?>[] types, Configuration obj)
+    {
+        StringWriter sw = new StringWriter();
+        try 
+        {
+            write(types, true, obj, sw);
+        }
+        catch (Exception e)
+        {
+        }
+        return sw.toString();
+    }
+    
+    public static <T extends Configuration> T fromString(Class<T> type, String str)
+    {
+        try 
+        {
+            return read(type, new StringReader(str));
+        }
+        catch (Exception e)
+        {
+        }
+        return null;
+    }
+    
+    public static Configuration fromString(Class<?>[] types, String str)
+    {
+        try 
+        {
+            return read(types, new StringReader(str));
+        }
+        catch (Exception e)
+        {
+        }
+        return null;
+    }
 
     public String toString()
     {
-        try
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            write(this.getClass(), this, baos);
-            return new String(baos.toByteArray());
-        }
-        catch (Exception ie)
-        {
-        }
-        return super.toString();
+        return toString(this.getClass(), this);
     }
 }
