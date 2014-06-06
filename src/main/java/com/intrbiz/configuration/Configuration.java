@@ -317,4 +317,11 @@ public class Configuration
     {
         return toString(this.getClass(), this);
     }
+    
+    public static String getRootElement(Class<? extends Configuration> cls)
+    {
+        XmlRootElement xre = cls.getAnnotation(XmlRootElement.class);
+        if (xre != null) return xre.name();
+        return null;
+    }
 }
