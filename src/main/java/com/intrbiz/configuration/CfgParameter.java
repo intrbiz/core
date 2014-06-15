@@ -1,5 +1,7 @@
 package com.intrbiz.configuration;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -12,8 +14,10 @@ import com.intrbiz.Util;
  */
 @XmlType(name = "parameter")
 @XmlRootElement(name = "parameter")
-public class CfgParameter
+public class CfgParameter implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private String name;
 
     private String description;

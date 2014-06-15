@@ -3,6 +3,7 @@ package com.intrbiz.configuration;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -24,8 +25,10 @@ import com.intrbiz.Util;
  */
 @XmlType(name = "configuration")
 @XmlRootElement(name = "configuration")
-public class Configuration
+public class Configuration implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private String name;
 
     private String classname;
