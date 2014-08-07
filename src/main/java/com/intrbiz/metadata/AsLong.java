@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.LongConverter;
 @UseConverter(LongConverter.class)
 public @interface AsLong
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    long defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

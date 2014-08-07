@@ -15,7 +15,30 @@ import com.intrbiz.validator.validators.DoubleValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(DoubleValidator.class)
 @UseConverter(DoubleConverter.class)
-public @interface IsaDouble {
+public @interface IsaDouble 
+{
+    /**
+     * The minimum valid value
+     */
     double min() default Double.MIN_VALUE;
+    
+    /**
+     * The maximum valid value
+     */
     double max() default Double.MAX_VALUE;
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
+    /**
+     * The default value to coalesce to if enabled
+     */
+    double defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

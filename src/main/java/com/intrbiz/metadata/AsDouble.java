@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.DoubleConverter;
 @UseConverter(DoubleConverter.class)
 public @interface AsDouble
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    double defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

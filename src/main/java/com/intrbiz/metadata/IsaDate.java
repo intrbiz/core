@@ -14,4 +14,5 @@ import com.intrbiz.validator.validators.DateValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(DateValidator.class)
 public @interface IsaDate {
+    boolean mandatory() default false;
 }

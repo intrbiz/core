@@ -3,8 +3,8 @@ package com.intrbiz.converter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.metadata.UseConverter;
-
 
 /**
  * Convert from and to the textual representation of a Java value
@@ -12,6 +12,10 @@ import com.intrbiz.metadata.UseConverter;
 public abstract class Converter<T>
 {
     private final Class<T> type;
+
+    protected T defaultValue;
+
+    protected CoalesceMode coalesce;
 
     public Converter(Class<T> type)
     {
@@ -25,15 +29,33 @@ public abstract class Converter<T>
     {
         return this.type;
     }
-    
+
     public boolean canConvertTo(Class<?> type)
     {
         return this.getType() == type;
     }
 
-    public void configure(Annotation annotation, Annotation[] additional)
+    public T getDefaultValue()
     {
+        return defaultValue;
     }
+
+    protected void setDefaultValue(T defaultValue)
+    {
+        this.defaultValue = defaultValue;
+    }
+
+    public CoalesceMode getCoalesce()
+    {
+        return coalesce;
+    }
+
+    protected void setCoalesce(CoalesceMode coalesce)
+    {
+        this.coalesce = coalesce;
+    }
+
+    public abstract void configure(Annotation annotation, Annotation[] additional);
 
     /**
      * Convert the given string to its value
@@ -46,7 +68,7 @@ public abstract class Converter<T>
     public abstract String formatValue(T in) throws ConversionException;
 
     //
-    
+
     public static final Converter<?> fromParameter(Class<?> paramType, Annotation[] paramAnnos) throws ConversionException
     {
         try

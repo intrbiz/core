@@ -12,5 +12,5 @@ import com.intrbiz.converter.converters.DateConverter;
 @UseConverter(DateConverter.class)
 public @interface AsTime
 {
-    String pattern() default "hh:mm:ss" ;
+    String value() default "hh:mm:ss" ;
 }

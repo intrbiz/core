@@ -2,8 +2,14 @@ package com.intrbiz.converter.converters;
 
 import static com.intrbiz.Util.*;
 
+import java.lang.annotation.Annotation;
+
 import com.intrbiz.converter.ConversionException;
 import com.intrbiz.converter.Converter;
+import com.intrbiz.metadata.AsDouble;
+import com.intrbiz.metadata.CoalesceMode;
+import com.intrbiz.metadata.IsaDouble;
+import com.intrbiz.metadata.IsaInt;
 
 public class DoubleConverter extends Converter<Double>
 {
@@ -16,6 +22,23 @@ public class DoubleConverter extends Converter<Double>
     public boolean canConvertTo(Class<?> type)
     {
         return type == Double.class || type == double.class;
+    }
+    
+    @Override
+    public void configure(Annotation data, Annotation[] additional)
+    {
+        if (data instanceof AsDouble)
+        {
+            AsDouble c = (AsDouble) data;
+            this.setCoalesce(c.coalesce());
+            this.setDefaultValue(c.defaultValue());
+        }
+        else if (data instanceof IsaInt)
+        {
+            IsaDouble c = (IsaDouble) data;
+            this.setCoalesce(c.coalesce());
+            this.setDefaultValue(c.defaultValue());
+        }
     }
 
     /**
@@ -34,7 +57,14 @@ public class DoubleConverter extends Converter<Double>
     @Override
     public Double parseValue(String requestvalue) throws ConversionException
     {
-        if (isEmpty(requestvalue)) { return null; }
+        if (isEmpty(requestvalue)) 
+        {
+            if (this.coalesce == CoalesceMode.ON_NULL || this.coalesce == CoalesceMode.ALWAYS)
+            {
+                return this.getDefaultValue();
+            }
+            return null; 
+        }
         if (containsMagicDoSNumber(requestvalue)) throw new ConversionException("The request input is regarded as a potential DoS threat");
         try
         {
@@ -42,7 +72,14 @@ public class DoubleConverter extends Converter<Double>
         }
         catch (Exception e)
         {
-            throw new ConversionException("Error converting to double", e);
+            if (this.coalesce == CoalesceMode.ON_CONVERSION_ERROR || this.coalesce == CoalesceMode.ON_ANY_ERROR || this.coalesce == CoalesceMode.ALWAYS)
+            {
+                return this.defaultValue;
+            }
+            else
+            {
+                throw new ConversionException("Error converting to double", e);
+            }
         }
     }
 

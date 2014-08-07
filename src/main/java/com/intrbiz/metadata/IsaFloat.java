@@ -15,7 +15,30 @@ import com.intrbiz.validator.validators.FloatValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(FloatValidator.class)
 @UseConverter(FloatConverter.class)
-public @interface IsaFloat {
+public @interface IsaFloat 
+{    
+    /**
+     * The minimum valid value
+     */
     float min() default Float.MIN_VALUE;
+    
+    /**
+     * The maximum valid value
+     */
     float max() default Float.MAX_VALUE;
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
+    /**
+     * The default value to coalesce to if enabled
+     */
+    float defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

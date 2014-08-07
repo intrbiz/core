@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.UUIDConverter;
 @UseConverter(UUIDConverter.class)
 public @interface AsUUID
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    String defaultValue() default "";
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

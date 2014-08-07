@@ -2,6 +2,7 @@ package com.intrbiz.validator.validators;
 
 import java.lang.annotation.Annotation;
 
+import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.metadata.IsaInt;
 import com.intrbiz.validator.ValidationException;
 import com.intrbiz.validator.Validator;
@@ -21,23 +22,35 @@ public class IntegerValidator extends Validator<Integer>
     @Override
     public void configure(Annotation data, Annotation[] additional)
     {
-        super.configure(data, additional);
         if (data instanceof IsaInt)
         {
             IsaInt iv = (IsaInt) data;
             this.min = iv.min();
             this.max = iv.max();
+            this.setMandatory(iv.mandatory());
+            this.setCoalesce(iv.coalesce());
+            this.setDefaultValue(iv.defaultValue());
         }
     }
 
-    public void validate(Integer in) throws ValidationException
+    public Integer validate(Integer in) throws ValidationException
     {
-        super.validate(in);
+        in = super.validate(in);
         if (in != null)
         {
-            int i = (Integer) in;
-            if (i < this.min || i > this.max) { throw new ValidationException("Value must be between " + this.min + " and " + this.max); }
+            if (in < this.min || in > this.max)
+            {
+                if (this.coalesce == CoalesceMode.ON_VALIDATION_ERROR || this.coalesce == CoalesceMode.ON_ANY_ERROR || this.coalesce == CoalesceMode.ALWAYS)
+                {
+                    return this.defaultValue;
+                }
+                else
+                {
+                    throw new ValidationException("Value must be between " + this.min + " and " + this.max);
+                }
+            }
         }
+        return in;
     }
 
 }

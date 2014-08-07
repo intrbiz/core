@@ -15,7 +15,30 @@ import com.intrbiz.validator.validators.LongValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(LongValidator.class)
 @UseConverter(LongConverter.class)
-public @interface IsaLong {
+public @interface IsaLong
+{
+    /**
+     * The minimum valid value
+     */
     long min() default Long.MIN_VALUE;
+    
+    /**
+     * The maximum valid value
+     */
     long max() default Long.MAX_VALUE;
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
+    /**
+     * The default value to coalesce to if enabled
+     */
+    long defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

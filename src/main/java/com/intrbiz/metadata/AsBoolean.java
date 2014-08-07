@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.BooleanConverter;
 @UseConverter(BooleanConverter.class)
 public @interface AsBoolean
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    boolean defaultValue() default false;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

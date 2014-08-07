@@ -15,5 +15,10 @@ import com.intrbiz.validator.validators.EmailValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(EmailValidator.class)
 @UseConverter(StringConverter.class)
-public @interface IsaEmailAddress {
+public @interface IsaEmailAddress
+{    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
 }

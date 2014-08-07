@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.IntegerConverter;
 @UseConverter(IntegerConverter.class)
 public @interface AsInt
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    int defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

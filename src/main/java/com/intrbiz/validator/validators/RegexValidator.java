@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.intrbiz.metadata.CheckRegEx;
+import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.validator.ValidationException;
 import com.intrbiz.validator.Validator;
 
@@ -20,18 +21,20 @@ public class RegexValidator extends Validator<String>
     @Override
     public void configure(Annotation data, Annotation[] additional)
     {
-        super.configure(data, additional);
         if (data instanceof CheckRegEx)
         {
             CheckRegEx rtv = (CheckRegEx) data;
             this.pattern = Pattern.compile(rtv.value());
+            this.setMandatory(rtv.mandatory());
+            this.setCoalesce(rtv.coalesce());
+            this.setDefaultValue(rtv.defaultValue());
         }
     }
     
     @Override
-    public void validate(String in) throws ValidationException
+    public String validate(String in) throws ValidationException
     {
-        super.validate(in);
+        in = super.validate(in);
         if (in != null)
         {
             try
@@ -39,14 +42,29 @@ public class RegexValidator extends Validator<String>
                 Matcher m = this.pattern.matcher(in) ;
                 if ( ! m.matches())
                 {
-                    throw new ValidationException("Value does not match the specified regualr expression");
+                    if (this.coalesce == CoalesceMode.ON_VALIDATION_ERROR || this.coalesce == CoalesceMode.ON_ANY_ERROR || this.coalesce == CoalesceMode.ALWAYS)
+                    {
+                        return this.defaultValue;
+                    }
+                    else
+                    {
+                        throw new ValidationException("Value does not match the specified regualr expression");
+                    }
                 }
             }
             catch (Exception e)
             {
-                throw new ValidationException("Value could not be validated",e);
+                if (this.coalesce == CoalesceMode.ON_VALIDATION_ERROR || this.coalesce == CoalesceMode.ON_ANY_ERROR || this.coalesce == CoalesceMode.ALWAYS)
+                {
+                    return this.defaultValue;
+                }
+                else
+                {
+                    throw new ValidationException("Value could not be validated", e);
+                }
             }
         }
+        return in;
     }
     
 }

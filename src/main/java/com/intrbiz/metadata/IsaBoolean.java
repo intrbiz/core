@@ -5,17 +5,27 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.intrbiz.converter.converters.StringConverter;
+import com.intrbiz.converter.converters.BooleanConverter;
+import com.intrbiz.validator.validators.BooleanValidator;
 
+/**
+ * Check the a boolean value
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-@UseConverter(StringConverter.class)
-public @interface AsString
-{
+@UseValidator(BooleanValidator.class)
+@UseConverter(BooleanConverter.class)
+public @interface IsaBoolean {
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
     /**
      * The default value to coalesce to if enabled
      */
-    String defaultValue() default "";
+    boolean defaultValue() default false;
     
     /**
      * Coalesce the value either during conversion or validation

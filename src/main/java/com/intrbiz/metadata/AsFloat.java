@@ -12,4 +12,13 @@ import com.intrbiz.converter.converters.FloatConverter;
 @UseConverter(FloatConverter.class)
 public @interface AsFloat
 {
+    /**
+     * The default value to coalesce to if enabled
+     */
+    float defaultValue() default 0;
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

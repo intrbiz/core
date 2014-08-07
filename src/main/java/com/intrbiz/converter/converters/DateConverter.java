@@ -9,6 +9,7 @@ import java.util.Date;
 import com.intrbiz.converter.ConversionException;
 import com.intrbiz.converter.Converter;
 import com.intrbiz.metadata.AsDate;
+import com.intrbiz.metadata.AsTime;
 
 public class DateConverter extends Converter<Date>
 {
@@ -22,8 +23,16 @@ public class DateConverter extends Converter<Date>
     @Override    
     public void configure(Annotation data, Annotation[] additional)
     {
-        AsDate dconv = (AsDate) data;
-        this.format = new SimpleDateFormat(dconv.value());
+        if (data instanceof AsDate)
+        {
+            AsDate dconv = (AsDate) data;
+            this.format = new SimpleDateFormat(dconv.value());
+        }
+        else if (data instanceof AsTime)
+        {
+            AsTime dconv = (AsTime) data;
+            this.format = new SimpleDateFormat(dconv.value());
+        }
     }
 
     @Override

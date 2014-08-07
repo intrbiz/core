@@ -13,7 +13,9 @@ public class EmailValidator extends RegexValidator
         super.configure(data, additional);
         if (data instanceof IsaEmailAddress)
         {
+            IsaEmailAddress v = (IsaEmailAddress) data;
             this.pattern = Pattern.compile("([^@]+)(@)([A-Za-z0-9\\-_]{2,})(\\.[A-Za-z0-9\\-_]{2,})*");
+            this.setMandatory(v.mandatory());
         }
     }
 }

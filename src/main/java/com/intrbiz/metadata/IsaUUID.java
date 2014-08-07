@@ -16,4 +16,19 @@ import com.intrbiz.validator.validators.UUIDValidator;
 @UseValidator(UUIDValidator.class)
 @UseConverter(UUIDConverter.class)
 public @interface IsaUUID {
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
+    /**
+     * The default value to coalesce to if enabled
+     */
+    String defaultValue() default "";
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }

@@ -2,6 +2,7 @@ package com.intrbiz.validator.validators;
 
 import java.lang.annotation.Annotation;
 
+import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.metadata.IsaLong;
 import com.intrbiz.validator.ValidationException;
 import com.intrbiz.validator.Validator;
@@ -20,23 +21,35 @@ public class LongValidator extends Validator<Long>
     @Override
     public void configure(Annotation data, Annotation[] additional)
     {
-        super.configure(data, additional);
         if (data instanceof IsaLong)
         {
             IsaLong lv = (IsaLong) data;
             this.min = lv.min();
             this.max = lv.max();
+            this.setMandatory(lv.mandatory());
+            this.setCoalesce(lv.coalesce());
+            this.setDefaultValue(lv.defaultValue());
         }
     }
 
-    public void validate(Long in) throws ValidationException
+    public Long validate(Long in) throws ValidationException
     {
-        super.validate(in);
+        in = super.validate(in);
         if (in != null)
         {
-            long i = (Long) in;
-            if (i < this.min || i > this.max) { throw new ValidationException("Value must be between " + this.min + " and " + this.max); }
+            if (in < this.min || in > this.max) 
+            { 
+                if (this.coalesce == CoalesceMode.ON_VALIDATION_ERROR || this.coalesce == CoalesceMode.ON_ANY_ERROR || this.coalesce == CoalesceMode.ALWAYS)
+                {
+                    return this.defaultValue;
+                }
+                else
+                {
+                    throw new ValidationException("Value must be between " + this.min + " and " + this.max);
+                }
+            }
         }
+        return in;
     }
 
 }

@@ -15,6 +15,25 @@ import com.intrbiz.validator.validators.RegexValidator;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @UseValidator(RegexValidator.class)
 @UseConverter(StringConverter.class)
-public @interface CheckRegEx {
+public @interface CheckRegEx
+{
+    /**
+     * The RegEx pattern to use to validate the input
+     */
     String value() default ".*" ;
+    
+    /**
+     * Is a non-null value required
+     */
+    boolean mandatory() default false;
+    
+    /**
+     * The default value to coalesce to if enabled
+     */
+    String defaultValue() default "";
+    
+    /**
+     * Coalesce the value either during conversion or validation
+     */
+    CoalesceMode coalesce() default CoalesceMode.NEVER;
 }
