@@ -2,6 +2,8 @@ package com.intrbiz.converter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.metadata.UseConverter;
@@ -61,11 +63,34 @@ public abstract class Converter<T>
      * Convert the given string to its value
      */
     public abstract T parseValue(String value) throws ConversionException;
+    
+    /**
+     * Convert the given List<String> to the List<T> of values
+     */
+    public List<T> parseListValue(List<String> value) throws ConversionException
+    {
+        List<T> ret = new LinkedList<T>();
+        for (String input : value)
+        {
+            ret.add(this.parseValue(input));
+        }
+        return ret;
+    }
 
     /**
      * Convert the given value to its String value
      */
     public abstract String formatValue(T in) throws ConversionException;
+    
+    public List<String> formatListValue(List<T> in) throws ConversionException
+    {
+        List<String> ret = new LinkedList<String>();
+        for (T value : in)
+        {
+            ret.add(this.formatValue(value));
+        }
+        return ret;
+    }
 
     //
 

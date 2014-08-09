@@ -2,6 +2,8 @@ package com.intrbiz.validator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.intrbiz.metadata.CoalesceMode;
 import com.intrbiz.metadata.UseValidator;
@@ -77,6 +79,16 @@ public abstract class Validator<T>
             }
         }
         return in;
+    }
+    
+    public List<T> validateList(List<T> in) throws ValidationException
+    {
+        List<T> ret = new LinkedList<T>();
+        for (T value : in)
+        {
+            ret.add(this.validate(value));
+        }
+        return ret;
     }
 
     //
