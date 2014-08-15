@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Deprecated()
 public class WeakCache<K, V> implements IBCache<K, V>
 {
     private final Lock queueLock = new ReentrantLock();
