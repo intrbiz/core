@@ -14,5 +14,5 @@ maven-build:
     - "mvn clean install package deploy -B"
   artifacts:
     paths:
-      - '*/target/*.jar'
+      - 'target/*.jar'
 
